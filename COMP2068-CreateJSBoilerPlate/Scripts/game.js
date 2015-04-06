@@ -76,7 +76,11 @@ var coinSound;
 var imgMonsterARun = new Image();
 var bmpAnimation;
 
+var monsterArray = new Array(100);
+
 function init() {
+    console.log("Length Is = " + monsterArray.length);
+
     //Set up canvas and stage
     canvas = document.getElementById("canvas");
 
@@ -92,7 +96,7 @@ function init() {
     canvas = document.getElementById("testCanvas");
 
     //Set up the Background
-    background = new createjs.Bitmap("assets/images/Background.jpg");
+    background = new createjs.Bitmap("assets/images/test.png");
     background.scaleY = background.scaleX = 1.3;
 
     //Enable Key events
