@@ -74,15 +74,11 @@ var hp;
 var coinSound;
 
 var imgMonsterARun = new Image();
-var bmpAnimation;
 
-var monsterArray = new Array(100);
+var bmpAnimation = new Array(100);
 
 function init() {
 
-    console.log("Length Is = " + monsterArray.length);
-
-    
     //Set up canvas and stage
     canvas = document.getElementById("canvas");
 
@@ -112,34 +108,19 @@ function init() {
     createjs.Ticker.setFPS(60);
 
 
-    newMonster();
+    loadMonster(10);
 }
 
 function gameLoop() {
-    // Hit testing the screen width, otherwise our sprite would disappear
-    if (bmpAnimation.x >= window.innerWidth - 36) {
-        // We've reached the right side of our screen
-        // We need to walk left now to go back to our initial position
-        bmpAnimation.scaleX = 1;
-        bmpAnimation.direction = -90;
-    }
+    //Get how many monsters are currently in the array. 
+    var numMobs = bmpAnimation.filter(function (value) { return value !== undefined }).length;
 
-    if (bmpAnimation.x < 16) {
-        // We've reached the left side of our screen
-        // We need to walk right now
-        bmpAnimation.scaleX = -1;
-        bmpAnimation.direction = 90;
-    }
+    if (numMobs != 0)
+        animateMonsters();
 
-    // Moving the sprite based on the direction & the speed
-    if (bmpAnimation.direction == 90) {
-        bmpAnimation.x += bmpAnimation.vX;
-    }
-    else {
-        bmpAnimation.x -= bmpAnimation.vX;
-    }
+    else
+        console.log("You Win!!!");
 
-    // update the stage:
     stage.update();
 }
 

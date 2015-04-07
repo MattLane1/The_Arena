@@ -102,6 +102,7 @@
     <TypeScriptCompile Include="Scripts\lib\soundjs.d.ts" />
     <TypeScriptCompile Include="Scripts\lib\tweenjs.d.ts" />
     <TypeScriptCompile Include="Scripts\Monsters.ts" />
+    <TypeScriptCompile Include="Scripts\player.ts" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="assets\fonts\" />
