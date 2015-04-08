@@ -59,46 +59,65 @@ var carFourHit;
 var carFiveHit;
 var carSixHit;
 
+
+
 //post variables are used to write words to the screen for the user
-var postHP;
-var postReset;
+var postBullets;
 var postScore;
-var postInstructions;
-var postWinLoose;
+
+//Images
+var imgMonsterARun = new Image();
+var monsterArray = new Array(100);
+
+//mouse coords
+var shotAtX;
+var shotAtY;
 
 //Current score and hp values
 var score;
-var hp;
+var bullets;
+var time;
 
-//Sounds
-var coinSound;
 
-var imgMonsterARun = new Image();
-
-var bmpAnimation = new Array(100);
 
 function init() {
+    //Shot coordinates
+    shotAtX = 0;
+    shotAtY = 0;
+    //Score and remaining bullets
+    score = 0;
+    bullets = 15;
+
+    //The game is ON!
+    gameOver = false;
 
     //Set up canvas and stage
     canvas = document.getElementById("canvas");
-
-    //Set up Canvas (Why do I need to reduce size?
-    canvas.width = window.innerWidth - 20;
-    canvas.height = window.innerHeight - 20;
-
-    //Set Up Stage
     stage = new createjs.Stage(canvas);
-    stage.enableMouseOver(20); // Enable mouse events
 
-    //find canvas and load images, wait for last image to load
-    canvas = document.getElementById("testCanvas");
+    //Set up stage
+    stage.canvas.width = (window.innerWidth - 25);
+    stage.canvas.height = (window.innerHeight - 25);
+    stage.enableMouseOver(20); // Enable mouse events 
+
+    //Add listener for mouse movement
+    canvas.addEventListener('click', function (evt) {
+        takeShot(evt);
+    }, false);
 
     //Set up the Background
-    background = new createjs.Bitmap("assets/images/test.png");
-    background.scaleY = background.scaleX = 1.3;
+    background = new createjs.Bitmap("assets/images/brick_window.jpg");
+    background.scaleY = background.scaleX = 1.6;
 
     //Enable Key events
     this.document.onkeydown = controls;
+
+    postBullets = new createjs.Text("Bullets Remaining : " + bullets, "20px Consolas", "#FFFFFF");
+    postScore = new createjs.Text("Score: " + score, "20px Consolas", "#FFFFFF");
+
+    //Position the text
+    postBullets.x = 10;
+    postScore.x = 300;
 
     //Add the background
     stage.addChild(background);
@@ -107,13 +126,16 @@ function init() {
     createjs.Ticker.useRAF = true;
     createjs.Ticker.setFPS(60);
 
+    //Display bullets and score
+    stage.addChild(postBullets);
+    stage.addChild(postScore);
 
     loadMonster(10);
 }
 
 function gameLoop() {
     //Get how many monsters are currently in the array. 
-    var numMobs = bmpAnimation.filter(function (value) { return value !== undefined }).length;
+    var numMobs = monsterArray.filter(function (value) { return value !== undefined }).length;
 
     if (numMobs != 0)
         animateMonsters();
@@ -122,6 +144,79 @@ function gameLoop() {
         console.log("You Win!!!");
 
     stage.update();
+}
+
+function takeShot(e) {
+    //Off set for the width of the monsters
+    shotAtX = event.clientX + (32);
+    shotAtY = event.clientY + (32);
+
+    if (gameOver == false)
+        checkHit(shotAtX, shotAtY);
+
+  //  console.log("Click at position x =" + playerPosX);
+  //  console.log("Click at position y =" + playerPosY);
+}
+
+function checkHit(shotCoordsX, shotCoordsY) {
+    //Get how many monsters are currently in the array. 
+    var numMobs = monsterArray.filter(function (value) { return value !== undefined }).length;
+    var hitSuccess;
+
+    bullets -= 1;
+
+    for (var mob = 0; mob < numMobs; mob++) {
+       
+        hitSuccess = hitTest(monsterArray[mob].x, monsterArray[mob].y, monsterArray[mob].getBounds().width, monsterArray[mob].getBounds().height, shotCoordsX, shotCoordsY);
+
+        // console.log("---------Monster Location Info Incoming---------");
+        // console.log("Mob #" + mob + "at location: " + monsterArray[mob]);
+        // console.log("------------------------------------------------");
+
+        if (hitSuccess == true) {
+            console.log("Hit on monster # " + mob);
+            console.log("Array = " + monsterArray[mob]);
+            stage.removeChild(monsterArray[mob]);
+
+            //The monster is dead. RIP monster. He has shuffled off his mortal coil. He is no more. As such, let us remove him. 
+            monsterArray.splice(mob, 1);
+   
+            //Increase score
+            score += 10;
+
+            break;
+           
+        }
+
+        else
+           console.log("Miss!");
+    }
+    //Clear the way
+    stage.removeChild(postBullets);
+    stage.removeChild(postScore);
+    stage.update();
+
+    postBullets = new createjs.Text("Bullets Remaining : " + bullets, "20px Consolas", "#FFFFFF");
+    postScore = new createjs.Text("Score: " + score, "20px Consolas", "#FFFFFF");
+
+    //Position the text!
+    postBullets.x = 10;
+    postScore.x = 300;
+
+    stage.addChild(postBullets);
+    stage.addChild(postScore);
+
+}
+
+function hitTest(x1, y1, w1, h1, x2, y2) {
+    //x1, y1 = x and y coordinates of object 1
+    //w1, h1 = width and height of object 1
+    //x2, y2 = x and y coordinates of object 2 (usually midpt)
+    if ((x1 <= x2 && x1 + w1 >= x2) &&
+        (y1 <= y2 && y1 + h1 >= y2))
+        return true;
+    else
+        return false;
 }
 
 function controls() {

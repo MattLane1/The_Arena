@@ -70,6 +70,7 @@
     <Content Include="assets\audio\coin.aiff" />
     <Content Include="assets\images\beginButton.png" />
     <Content Include="assets\images\blueButton.png" />
+    <Content Include="assets\images\brick_window.jpg" />
     <Content Include="assets\images\car.png" />
     <Content Include="assets\images\coin.png" />
     <Content Include="assets\images\enemyFive.png" />
