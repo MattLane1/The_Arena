@@ -68,21 +68,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\audio\coin.aiff" />
-    <Content Include="assets\images\beginButton.png" />
-    <Content Include="assets\images\blueButton.png" />
     <Content Include="assets\images\brick_window.jpg" />
-    <Content Include="assets\images\car.png" />
-    <Content Include="assets\images\coin.png" />
-    <Content Include="assets\images\enemyFive.png" />
-    <Content Include="assets\images\enemyFour.png" />
-    <Content Include="assets\images\enemyOne.png" />
-    <Content Include="assets\images\enemySix.png" />
-    <Content Include="assets\images\enemyThree.png" />
-    <Content Include="assets\images\enemyTwo.png" />
+    <Content Include="assets\images\easy.png" />
+    <Content Include="assets\images\Hard.png" />
+    <Content Include="assets\images\Medium.png" />
     <Content Include="assets\images\MonsterARun.png" />
-    <Content Include="assets\images\road.jpg" />
     <Content Include="assets\images\Splash.png" />
-    <Content Include="assets\images\test.png" />
     <Content Include="css\game.css" />
     <Content Include="index.html" />
     <Content Include="Scripts\lib\easeljs-0.8.0.min.js" />
@@ -96,6 +87,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="Scripts\Containers.ts" />
     <TypeScriptCompile Include="Scripts\game.ts" />
     <TypeScriptCompile Include="Scripts\lib\createjs-lib.d.ts" />
     <TypeScriptCompile Include="Scripts\lib\easeljs.d.ts" />

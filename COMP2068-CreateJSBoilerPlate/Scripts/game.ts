@@ -64,6 +64,7 @@ var carSixHit;
 //post variables are used to write words to the screen for the user
 var postBullets;
 var postScore;
+var postTime;
 
 //Images
 var imgMonsterARun = new Image();
@@ -78,18 +79,32 @@ var score;
 var bullets;
 var time;
 
+//Difficulty Level
+var difficulty;
+
+/*
+ * gameState values:
+ * 1: Main Menu
+ * 2: Game on
+ * 3: Game over
+ */
+var gameState;
 
 
 function init() {
+    //Default difficulty (easy)
+    difficulty = 0;
+
     //Shot coordinates
     shotAtX = 0;
     shotAtY = 0;
+
     //Score and remaining bullets
     score = 0;
     bullets = 15;
 
-    //The game is ON!
-    gameOver = false;
+    //The game has not yet started
+    gameState = 1;
 
     //Set up canvas and stage
     canvas = document.getElementById("canvas");
@@ -100,50 +115,80 @@ function init() {
     stage.canvas.height = (window.innerHeight - 25);
     stage.enableMouseOver(20); // Enable mouse events 
 
+    stage.addChild(menu);
+
+    //Set up button for start easy mode.
+    easyButton.y = 500;
+    easyButton.addEventListener('click', function (evt) {
+        difficulty = 0;
+        beginGame();
+
+    }, false)
+
+    stage.update();
+}
+
+function beginGame() {
+    gameState = 2;
+    time = 60;
+
+    stage.removeAllChildren();
+    stage.removeAllEventListeners();
+
     //Add listener for mouse movement
     canvas.addEventListener('click', function (evt) {
         takeShot(evt);
     }, false);
 
-    //Set up the Background
-    background = new createjs.Bitmap("assets/images/brick_window.jpg");
-    background.scaleY = background.scaleX = 1.6;
-
-    //Enable Key events
-    this.document.onkeydown = controls;
-
-    postBullets = new createjs.Text("Bullets Remaining : " + bullets, "20px Consolas", "#FFFFFF");
-    postScore = new createjs.Text("Score: " + score, "20px Consolas", "#FFFFFF");
-
-    //Position the text
-    postBullets.x = 10;
-    postScore.x = 300;
-
-    //Add the background
-    stage.addChild(background);
-
+    //Set up Ticker
     createjs.Ticker.addEventListener("tick", gameLoop);
     createjs.Ticker.useRAF = true;
     createjs.Ticker.setFPS(60);
 
+    //Set up the Background
+    background = new createjs.Bitmap("assets/images/brick_window.jpg");
+    background.scaleY = background.scaleX = 1.6;
+
+    postBullets = new createjs.Text("Bullets Remaining : " + bullets, "20px Consolas", "#FFFFFF");
+    postScore = new createjs.Text("Score: " + score, "20px Consolas", "#FFFFFF");
+    postTime = new createjs.Text("Time: " + time, "20px Consolas", "#FFFFFF");
+
+    //Position the text
+    postBullets.x = 10;
+    postScore.x = 300;
+    postTime.x = 430;
+
+    //Add the background
+    stage.addChild(background);
+
     //Display bullets and score
     stage.addChild(postBullets);
     stage.addChild(postScore);
+    stage.addChild(postTime);
 
+    //Load the enemies
     loadMonster(10);
+
 }
 
 function gameLoop() {
-    //Get how many monsters are currently in the array. 
-    var numMobs = monsterArray.filter(function (value) { return value !== undefined }).length;
 
-    if (numMobs != 0)
-        animateMonsters();
+    if (bullets == 0 || time == 0) {
+        gameState = 3;
+    }
 
-    else
-        console.log("You Win!!!");
+    else {
+        //Get how many monsters are currently in the array. 
+        var numMobs = monsterArray.filter(function (value) { return value !== undefined }).length;
 
-    stage.update();
+        if (numMobs != 0)
+            animateMonsters();
+
+        else
+            console.log("You Win!!!");
+
+        stage.update();
+    }
 }
 
 function takeShot(e) {
@@ -151,7 +196,7 @@ function takeShot(e) {
     shotAtX = event.clientX + (32);
     shotAtY = event.clientY + (32);
 
-    if (gameOver == false)
+    if (gameState == 2)
         checkHit(shotAtX, shotAtY);
 
   //  console.log("Click at position x =" + playerPosX);

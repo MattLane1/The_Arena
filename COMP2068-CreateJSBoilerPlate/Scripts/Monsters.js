@@ -16,34 +16,59 @@
 
     var speed;
     var y;
+    var floor;
 
     for (var mob = 0; mob < numMonsters; mob++) {
-        //Set monster speed
-        speed = 1; //Math.floor(Math.random() * (8 - 1 + 1)) + 1;
+        //default floor
+        y = 110;
 
-        //Set a random Y axis
+        switch (difficulty) {
+            case 0:
+                speed = Math.floor(Math.random() * (4 - 1 + 1)) + 1;
+                break;
+
+            case 1:
+                speed = Math.floor(Math.random() * (8 - 1 + 1)) + 1;
+                break;
+
+            case 2:
+                speed = Math.floor(Math.random() * (15 - 1 + 1)) + 1;
+                break;
+        }
+
         /*Floor Y Coords
         * First: 110
         * Second: 280
+        * Third: 450
+        * Fourth: 620
+        * Fifth: 790
         */
-        y = 110;
+        //Pick a floor for the monster to be on at random. (Between 1 and 5)
+        floor = Math.floor(Math.random() * (5 - 1 + 1) + 1);
+
+        switch (floor) {
+            case 1:
+                y = 110;
+                break;
+
+            case 2:
+                y = 280;
+                break;
+
+            case 3:
+                y = 450;
+                break;
+
+            case 4:
+                y = 620;
+                break;
+
+            case 5:
+                y = 790;
+                break;
+        }
 
         //y = 280;//Math.floor(Math.random() * ((window.innerHeight - 50) - 1 + 1)) + 1;
-        if (mob == 1)
-            y = 110;
-
-        if (mob == 2)
-            y = 280;
-
-        if (mob == 3)
-            y = 450;
-
-        if (mob == 4)
-            y = 620;
-
-        if (mob == 5)
-            y = 790;
-
         console.log("Mob created! Speed = " + speed);
 
         // create a BitmapAnimation instance to display and play back the sprite sheet:
