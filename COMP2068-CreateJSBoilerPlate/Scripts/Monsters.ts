@@ -93,9 +93,7 @@ function loadMonster(numMonsters) {
         // start playing the first sequence:
         monsterArray[mob].gotoAndPlay("walk");     //animate
 
-        // set up a shadow. Note that shadows are ridiculously expensive. You could display hundreds
-        // of animated rats if you disabled the shadow.
-        monsterArray[mob].shadow = new createjs.Shadow("#454", 0, 5, 4);
+       // monsterArray[mob].shadow = new createjs.Shadow("#454", 0, 5, 4);
         monsterArray[mob].name = "monster1";
         monsterArray[mob].direction = 90;
 
@@ -118,8 +116,67 @@ function loadMonster(numMonsters) {
     stage.update();
     }
 
-function animateMonsters() {
 
+function targetPlayer() {
+
+    //Get how many monsters are currently in the array. 
+    var numMobs = monsterArray.filter(function (value) { return value !== undefined }).length;
+
+    for (var mob = 0; mob < numMobs; mob++) {
+
+        // Move Monster to players X
+        if (monsterArray[mob].x > playerLocationX) {
+            // We've reached the right side of our screen
+            // We need to walk left now to go back to our initial position
+            monsterArray[mob].scaleX = 1;
+            monsterArray[mob].direction = -90;
+        }
+
+        if (monsterArray[mob].x < playerLocationX) {
+            // We've reached the left side of our screen
+            // We need to walk right now
+            monsterArray[mob].scaleX = -1;
+            monsterArray[mob].direction = 90;
+        }
+
+        // Moving the sprite based on the direction & the speed
+        if (monsterArray[mob].direction == 90) {
+            monsterArray[mob].x += monsterArray[mob].vX;
+        }
+        else {
+            monsterArray[mob].x -= monsterArray[mob].vX;
+        }
+
+        //Move monster to players Y
+        if (monsterArray[mob].y > playerLocationY) {
+            // We've reached the right side of our screen
+            // We need to walk left now to go back to our initial position
+            monsterArray[mob].direction = -80;
+        }
+
+        if (monsterArray[mob].y < playerLocationY) {
+            // We've reached the left side of our screen
+            // We need to walk right now
+            monsterArray[mob].direction = 80;
+        }
+
+        // Moving the sprite based on the direction & the speed
+        if (monsterArray[mob].direction == -80) {
+            monsterArray[mob].y -= monsterArray[mob].vX;
+        }
+        else {
+            monsterArray[mob].y += monsterArray[mob].vX;
+        }
+
+
+    }
+
+    // update the stage:
+    stage.update();
+}
+
+function animateMonsters() {
+    
     //Get how many monsters are currently in the array. 
     var numMobs = monsterArray.filter(function (value) { return value !== undefined }).length;
 

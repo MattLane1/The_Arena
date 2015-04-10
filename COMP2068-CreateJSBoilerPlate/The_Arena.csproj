@@ -68,6 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\audio\coin.aiff" />
+    <Content Include="assets\images\background.jpg" />
     <Content Include="assets\images\brick_window.jpg" />
     <Content Include="assets\images\easy.png" />
     <Content Include="assets\images\Hard.png" />

@@ -18,10 +18,13 @@ var postTime;
 var postLevel;
 var postMobs;
 
+var test;
+
 //Images
 var background;
 var imgMonsterARun = new Image();
 var monsterArray = new Array(100);
+var hero;
 
 //mouse coords
 var shotAtX;
@@ -38,9 +41,15 @@ var difficulty;
 //Level
 var level;
 
+//Player
+var playerLocationX;
+var playerLocationY;
+
 function init() {
     //level one is the start (obviously)
     level = 0;
+
+    test = false;
 
     //Default difficulty (easy)
     difficulty = 0;
@@ -110,11 +119,13 @@ function beginGame() {
     //Set up Ticker
     createjs.Ticker.addEventListener("tick", gameLoop);
     createjs.Ticker.useRAF = true;
-    createjs.Ticker.setFPS(60);
+    createjs.Ticker.setFPS(30);
 
     //Set up the Background
-    background = new createjs.Bitmap("assets/images/brick_window.jpg");
+    background = new createjs.Bitmap("assets/images/background.jpg");
     background.scaleY = background.scaleX = 1.6;
+
+    this.document.onkeydown = controls;
 
     //Add the background
     stage.addChild(background);
@@ -122,11 +133,34 @@ function beginGame() {
     //Load the enemies
     loadMonster(10);
 
+    //Load our hero
+    loadPlayer();
+
     //Set up ammo
     setAmmo();
 
     //Update info
     updateInfo();
+}
+
+function controls() {
+    switch (event.keyCode) {
+        case 38:
+            animatePlayer(0);
+            break;
+
+        case 40:
+            animatePlayer(1);
+            break;
+
+        case 39:
+            animatePlayer(2);
+            break;
+
+        case 37:
+            animatePlayer(3);
+            break;
+    }
 }
 
 function gameLoop() {
@@ -150,6 +184,7 @@ function gameLoop() {
             updateInfo();
 
             if (numMobs != 0)
+                //targetPlayer();
                 animateMonsters();
 
             stage.update();
@@ -161,7 +196,7 @@ function levelSplash() {
     //Get how many monsters are currently in the array.
     var numMobs = (monsterArray.filter(function (value) {
         return value !== undefined;
-    }).length - 1);
+    }).length);
 
     //They Won!
     if (gameState == 3 && numMobs == 0 && time != 0) {
@@ -247,6 +282,8 @@ function takeShot(e) {
     //Off set for the width of the monsters
     shotAtX = event.clientX + (32);
     shotAtY = event.clientY + (32);
+    playerLocationX = shotAtX;
+    playerLocationY = shotAtY;
 
     if (gameState == 2)
         checkHit(shotAtX, shotAtY);
@@ -258,7 +295,7 @@ function checkHit(shotCoordsX, shotCoordsY) {
     //Get how many monsters are currently in the array.
     var numMobs = (monsterArray.filter(function (value) {
         return value !== undefined;
-    }).length - 1);
+    }).length);
     var hitSuccess;
 
     bullets -= 1;
