@@ -1,23 +1,19 @@
-﻿
-//This function changes the initial amount of ammo the player has, depending on their chosen difficulty setting. 
+﻿//This function changes the initial amount of ammo the player has, depending on their chosen difficulty setting.
 function setHealth() {
+    //Get how many monsters are currently in the array.
+    var numMobs = monsterArray.filter(function (value) {
+        return value !== undefined;
+    }).length;
 
-    //Get how many monsters are currently in the array. 
-    var numMobs = monsterArray.filter(function (value) { return value !== undefined }).length;
-
-    //Set monster speed randomly, based on the difficulty
     switch (difficulty) {
-
-        //Easy
         case 0:
             health = 150;
             break;
-        //Medium
+
         case 1:
             health = 100;
             break;
 
-        //Hard
         case 2:
             health = 50;
             break;
@@ -25,7 +21,6 @@ function setHealth() {
 }
 
 function loadPlayer() {
-
     //  imgMonsterARun.onload = handleImageLoad;
     //  imgMonsterARun.onerror = handleImageError;
     imgHero.src = "assets/images/heroWalk.png";
@@ -48,7 +43,7 @@ function loadPlayer() {
     hero = new createjs.Sprite(spriteSheet);
 
     // start playing the first sequence:
-    hero.gotoAndPlay("walk");     //animate
+    hero.gotoAndPlay("walk"); //animate
 
     //Hero name and default starting direction
     hero.name = "Hero";
@@ -56,12 +51,16 @@ function loadPlayer() {
 
     //Speed
     hero.vX = speed;
+
     //X Plane (Starting pos)
     hero.x = (window.innerWidth / 2);
+
     //Y Plane (Run on this line)
     hero.y = (window.innerHeight / 2);
+
     //Left or Right
     hero.scaleX = 1;
+
     //Start at frame one
     hero.currentFrame = 0;
 
@@ -70,29 +69,28 @@ function loadPlayer() {
 }
 
 function animatePlayer() {
-   // console.log("movement!" + direction);
-
-    if (playerDirectionArray[0] == true) {//right
+    // console.log("movement!" + direction);
+    if (playerDirectionArray[0] == true) {
         if (hero.x <= window.innerWidth - 50) {
             hero.scaleX = 1;
             hero.x += hero.vX;
         }
     }
 
-    if (playerDirectionArray[3] == true) {//left
+    if (playerDirectionArray[3] == true) {
         if (hero.x >= 36) {
             hero.scaleX = -1;
             hero.x -= hero.vX;
         }
     }
 
-    if (playerDirectionArray[2] == true) {//up
+    if (playerDirectionArray[2] == true) {
         if (hero.y >= 36) {
             hero.y -= hero.vX;
         }
     }
 
-    if (playerDirectionArray[1] == true) {//down
+    if (playerDirectionArray[1] == true) {
         if (hero.y <= window.innerHeight - 50) {
             hero.y += hero.vX;
         }
@@ -101,3 +99,4 @@ function animatePlayer() {
     // update the stage:
     stage.update();
 }
+//# sourceMappingURL=player.js.map

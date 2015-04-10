@@ -72,6 +72,7 @@
     <Content Include="assets\images\brick_window.jpg" />
     <Content Include="assets\images\easy.png" />
     <Content Include="assets\images\Hard.png" />
+    <Content Include="assets\images\heroWalk.png" />
     <Content Include="assets\images\Medium.png" />
     <Content Include="assets\images\MonsterARun.png" />
     <Content Include="assets\images\Splash.png" />

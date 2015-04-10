@@ -30,5 +30,3 @@ looseMessage.addChild(
     menuButton = new createjs.Bitmap("assets/images/main_menu.png")
     );
 
-
-//stage.addChild(container);

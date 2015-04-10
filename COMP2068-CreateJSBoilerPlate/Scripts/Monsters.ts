@@ -37,12 +37,12 @@ function loadMonster(numMonsters) {
                  break;
             //Medium
             case 1:
-                    speed = Math.floor(Math.random() * (8 - 1 + 1)) + 1;
+                    speed = Math.floor(Math.random() * (6 - 1 + 1)) + 1;
                 break;
 
             //Hard
             case 2:
-                    speed = Math.floor(Math.random() * (15 - 1 + 1)) + 1;
+                    speed = Math.floor(Math.random() * (10 - 1 + 1)) + 1;
                 break;
         }
        
