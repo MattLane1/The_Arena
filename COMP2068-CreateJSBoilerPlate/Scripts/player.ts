@@ -49,7 +49,7 @@ function loadPlayer() {
 
     // start playing the first sequence:
     hero.gotoAndPlay("walk");     //animate
-
+   
     //Hero name and default starting direction
     hero.name = "Hero";
     hero.direction = -90;

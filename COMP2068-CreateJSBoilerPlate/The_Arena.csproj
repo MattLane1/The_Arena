@@ -70,6 +70,7 @@
     <Content Include="assets\audio\coin.aiff" />
     <Content Include="assets\images\background.jpg" />
     <Content Include="assets\images\brick_window.jpg" />
+    <Content Include="assets\images\coin.png" />
     <Content Include="assets\images\easy.png" />
     <Content Include="assets\images\Hard.png" />
     <Content Include="assets\images\heroWalk.png" />
@@ -89,6 +90,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="Scripts\coin.ts" />
     <TypeScriptCompile Include="Scripts\Containers.ts" />
     <TypeScriptCompile Include="Scripts\game.ts" />
     <TypeScriptCompile Include="Scripts\lib\createjs-lib.d.ts" />

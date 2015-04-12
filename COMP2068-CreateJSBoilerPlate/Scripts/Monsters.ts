@@ -1,6 +1,4 @@
 ﻿
-
-
 function loadMonster(numMonsters) {
 
     //  imgMonsterARun.onload = handleImageLoad;

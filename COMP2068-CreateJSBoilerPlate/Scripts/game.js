@@ -23,8 +23,10 @@ var test;
 var background;
 var imgMonsterARun = new Image();
 var imgHero = new Image();
+var imgCoin = new Image();
 var monsterArray = new Array(100);
 var hero;
+var coin;
 
 //mouse coords
 var shotAtX;
@@ -56,6 +58,9 @@ function init() {
 
     //Default difficulty (easy)
     difficulty = 0;
+
+    //First Level
+    level = 1;
 
     //Shot coordinates
     shotAtX = 0;
@@ -107,7 +112,6 @@ function init() {
 }
 
 function beginGame() {
-    level = 0;
     gameState = 2;
 
     stage.removeAllChildren();
@@ -129,10 +133,13 @@ function beginGame() {
     stage.addChild(background);
 
     //Load the enemies
-    loadMonster(10);
+    loadMonster((level * 5));
 
     //Load our hero
     loadPlayer();
+
+    //TEMP
+    loadCoin();
 
     //Set up ammo
     setHealth();
@@ -160,7 +167,6 @@ function controls() {
             break;
 
         case 32:
-            attacking = true;
             break;
     }
 }
