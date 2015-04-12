@@ -158,25 +158,27 @@ function controls() {
     switch (event.keyCode) {
         case 38://right
             playerDirectionArray[2] = true;
+           // hero.gotoAndPlay("walk"); 
+           // animatePlayer();
             break;
 
         case 40://down
             playerDirectionArray[1] = true;
+           // hero.gotoAndPlay("walk"); 
+          //  animatePlayer(); 
             break;
-
+        
         case 39://up
             playerDirectionArray[0] = true;
+          //  hero.gotoAndPlay("walk");
+           // animatePlayer();
             break;
 
         case 37://left
             playerDirectionArray[3] = true;
+           // hero.gotoAndPlay("walk"); 
+           // animatePlayer();
             break;
-
-        case 32://Attack!
-           // attacking = true;
-            break;
-
-       
     }
 }
 
@@ -184,22 +186,22 @@ function offControls() {
     switch (event.keyCode) {
         case 38://right
             playerDirectionArray[2] = false;
+          //  hero.gotoAndStop(); 
             break;
 
         case 40://down
             playerDirectionArray[1] = false;
+          //  hero.gotoAndStop(); 
             break;
 
         case 39://up
             playerDirectionArray[0] = false;
+         //   hero.gotoAndStop(); 
             break;
 
         case 37://left
             playerDirectionArray[3] = false;
-            break;
-
-        case 32://Attacking!
-            attacking = false;
+         //   hero.gotoAndStop(); 
             break;
     }
 }
@@ -214,12 +216,12 @@ function gameLoop() {
         //Get how many monsters are currently in the array. 
         var numMobs = monsterArray.filter(function (value) { return value !== undefined }).length;
 
-        if (health == 0) {
+        if (health <= 0) {
             gameState = 3;
             levelSplash();
         }
 
-        if (numMobs == 0 && gameState == 2) {
+        if (score >= 30 && gameState == 2) {
             gameState = 3;
             levelSplash();
         }
@@ -230,10 +232,8 @@ function gameLoop() {
 
             if (numMobs != 0) {
                 targetPlayer();
-                animatePlayer();
                 checkHit();
-           
-
+                animatePlayer();
                 stage.update();
             }
         }
@@ -248,7 +248,7 @@ function levelSplash() {
     console.log("CHECKING!" + "state+" + gameState + "mobs=" + numMobs + "health=" + health);
 
     //They Won!
-    if (gameState == 3 && numMobs == 0 && health != 0) {
+    if (gameState == 3 && score >= 30 && health > 0) {
         console.log("WIN!" + "state+" + gameState + "mobs=" + numMobs + "health=" + health);
         //Set up button for start next level
         nextLevelButton.y = 500;
@@ -275,7 +275,7 @@ function levelSplash() {
     }
 
     //They lost!
-    if (gameState == 3 && numMobs != 0 || health == 0) {
+    if (gameState == 3 && health <= 0) {
 
         console.log("loose!" + "state+" + gameState + "mobs=" + numMobs + "health=" + health);
         //Set up the button for return to menu
@@ -334,33 +334,23 @@ function checkHit() {
     var numMobs = (monsterArray.filter(function (value) { return value !== undefined }).length);
     var hitSuccess;
 
+    //Check enemy hit
     for (var mob = 0; mob < numMobs; mob++) {
        
         hitSuccess = hitTest(monsterArray[mob].x, monsterArray[mob].y, monsterArray[mob].getBounds().width, monsterArray[mob].getBounds().height, hero.x, hero.y);
 
-        // console.log("---------Monster Location Info Incoming---------");
-        // console.log("Mob #" + mob + "at location: " + monsterArray[mob]);
-        // console.log("------------------------------------------------");
-
-        if (hitSuccess == true) {
- 
-            if (attacking == false)
-                health--;
-
-            if (attacking == true) {
-                //Remove the monster
-                stage.removeChild(monsterArray[mob]);
-                //GIve them points!
-                score += 100;
-                //The monster is dead. RIP monster. He has shuffled off his mortal coil. He is no more. As such, let us remove him. 
-                monsterArray.splice(mob, 1);
-                //Increase score
-                score += 10;
-                break;
-            }
-           
-        }
+        if (hitSuccess == true) 
+                health -= 2;      
     }
+
+    //Check coin hit
+    if (hitTest(coin.x, coin.y, coin.getBounds().width, coin.getBounds().height, hero.x, hero.y) == true) {
+        score += 10;
+        stage.removeChild(coin);
+        loadCoin();
+        console.log("Coin GET!!!!!");
+    }
+        
     //Clear the way
     stage.removeChild(postHealth);
     stage.removeChild(postScore);

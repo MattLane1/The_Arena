@@ -77,6 +77,7 @@
     <Content Include="assets\images\Medium.png" />
     <Content Include="assets\images\MonsterARun.png" />
     <Content Include="assets\images\Splash.png" />
+    <Content Include="assets\images\TestCoin.png" />
     <Content Include="css\game.css" />
     <Content Include="index.html" />
     <Content Include="Scripts\lib\easeljs-0.8.0.min.js" />

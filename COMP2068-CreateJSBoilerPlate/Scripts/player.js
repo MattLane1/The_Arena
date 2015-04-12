@@ -1,4 +1,6 @@
-﻿//This function changes the initial amount of ammo the player has, depending on their chosen difficulty setting.
+﻿var first = true;
+
+//This function changes the initial amount of ammo the player has, depending on their chosen difficulty setting.
 function setHealth() {
     //Get how many monsters are currently in the array.
     var numMobs = monsterArray.filter(function (value) {
@@ -43,7 +45,8 @@ function loadPlayer() {
     hero = new createjs.Sprite(spriteSheet);
 
     // start playing the first sequence:
-    hero.gotoAndPlay("walk"); //animate
+    //  if (first == false)
+    hero.gotoAndPlay("walk");
 
     //Hero name and default starting direction
     hero.name = "Hero";

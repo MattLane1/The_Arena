@@ -23,17 +23,17 @@
 
     // start playing the first sequence:
     coin.gotoAndPlay("spin");     //animate
-   
+
     //Hero name and default starting direction
     coin.name = "Coin";
     coin.direction = -90;
 
     //Speed
     coin.vX = speed;
-    //X Plane (Starting pos)
-    coin.x = (window.innerWidth / 2);
-    //Y Plane (Run on this line)
-    coin.y = (window.innerHeight / 2);
+    //x plane for coin to appear on
+    coin.x = Math.floor(Math.random() * (1000 - 20 + 20)) + 20;
+    //Y plane for coin to appear on
+    coin.y = Math.floor(Math.random() * (600 - 20 + 20)) + 20;
     //Left or Right
     coin.scaleX = 1;
     //Start at frame one
