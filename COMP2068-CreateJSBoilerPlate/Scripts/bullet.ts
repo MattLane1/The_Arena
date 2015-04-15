@@ -10,19 +10,19 @@ function loadBullet() {
         bulletArray[(numBullets + 1)].y = hero.y;
 
         //Record which direction the hero was facing when the bullet was fired. Since, you know, bullets go straight. 
-        if (playerDirectionArray[0] == true)//right
+        if (lastDirection == 2)//right
             bulletDirectionArray[(numBullets + 1)] = 2;
 
         
-        if (playerDirectionArray[1] == true)//down
+        if (lastDirection == 3)//down
             bulletDirectionArray[(numBullets + 1)] = 3;
 
      
-        if (playerDirectionArray[2] == true)//up
+        if (lastDirection == 1)//up
             bulletDirectionArray[(numBullets + 1)] = 1;
 
      
-        if (playerDirectionArray[3] == true)//left
+        if (lastDirection == 4)//left
             bulletDirectionArray[(numBullets + 1)] = 4;
 
         stage.addChild(bulletArray[(numBullets + 1)]);
@@ -36,14 +36,11 @@ function animateBullet() {
     //Get how many bullets are currently in the array. 
     var numBullets = bulletArray.filter(function (value) { return value !== undefined }).length;
 
-    console.log("bullet direction array 0 = " + bulletDirectionArray[0]);
-    console.log("bullet direction array 1 = " + bulletDirectionArray[1]);
-    console.log("bullet direction array 2 = " + bulletDirectionArray[2]);
-    console.log("bullet direction array 3 = " + bulletDirectionArray[3]);
+    console.log("----animatingBullet-----");
 
     for (var bullets = 0; bullets <= numBullets; bullets++) {
 
-        if (bulletDirectionArray[bullets] == 2) {//right
+        if (bulletDirectionArray[bullets] == 1) {//right
             if (bulletArray[bullets].x <= window.innerWidth - 50) {
                 bulletArray[bullets].scaleX = 1;
                 bulletArray[bullets].x += 30;
@@ -76,7 +73,7 @@ function animateBullet() {
             }
         }
 
-        if (bulletDirectionArray[bullets] == 1) {//up
+        if (bulletDirectionArray[bullets] == 2) {//up
             if (bulletArray[bullets].y >= 36) {
                 bulletArray[bullets].scaleY = 1;
                 bulletArray[bullets].y -= 30;
@@ -108,7 +105,4 @@ function animateBullet() {
             }
         }
     }
- 
-    // update the stage:
-    stage.update();
 }

@@ -79,6 +79,8 @@ function targetPlayer() {
         return value !== undefined;
     }).length;
 
+    console.log("+++++Targeting Player+++++");
+
     for (var mob = 0; mob < numMobs; mob++) {
         // Move Monster to players X
         if (monsterArray[mob].x > playerLocationX) {
@@ -122,9 +124,6 @@ function targetPlayer() {
             monsterArray[mob].y += monsterArray[mob].vX;
         }
     }
-
-    // update the stage:
-    stage.update();
 }
 
 function animateMonsters() {

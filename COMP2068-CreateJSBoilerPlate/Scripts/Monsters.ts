@@ -81,6 +81,8 @@ function targetPlayer() {
     //Get how many monsters are currently in the array. 
     var numMobs = monsterArray.filter(function (value) { return value !== undefined }).length;
 
+    console.log("+++++Targeting Player+++++");
+
     for (var mob = 0; mob < numMobs; mob++) {
 
         // Move Monster to players X
@@ -127,11 +129,8 @@ function targetPlayer() {
             monsterArray[mob].y += monsterArray[mob].vX;
         }
 
-
     }
 
-    // update the stage:
-    stage.update();
 }
 
 function animateMonsters() {

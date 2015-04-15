@@ -30,9 +30,13 @@ var bulletDirectionArray = new Array(100);
 var imgMonsterARun = new Image();
 var imgHero = new Image();
 var imgCoin = new Image();
+var imgBullet = new Image();
 var monsterArray = new Array(100);
 var hero;
 var coin;
+
+//This records the direction the player was facing when a bullet was fired. This accounts for the player releasing the direction key before shooting.
+var lastDirection;
 
 //mouse coords
 var shotAtX;
@@ -59,6 +63,9 @@ function init() {
     level = 0;
 
     test = false;
+
+    //No known direction
+    lastDirection = 0;
 
     /*2D array
     var bulletArray = new Array(100);
@@ -166,21 +173,25 @@ function controls() {
     switch (event.keyCode) {
         case 38:
             playerDirectionArray[2] = true;
+            lastDirection = 2;
 
             break;
 
         case 40:
             playerDirectionArray[1] = true;
+            lastDirection = 3;
 
             break;
 
         case 39:
             playerDirectionArray[0] = true;
+            lastDirection = 1;
 
             break;
 
         case 37:
             playerDirectionArray[3] = true;
+            lastDirection = 4;
 
             break;
 
@@ -246,13 +257,12 @@ function gameLoop() {
                 targetPlayer();
                 animatePlayer();
                 checkHit();
-                stage.update();
-                coin.gotoAndPlay("spin");
             }
 
             if (numBullets != 0)
                 animateBullet();
         }
+        stage.update();
     }
 }
 
@@ -352,6 +362,11 @@ function checkHit() {
     var numMobs = (monsterArray.filter(function (value) {
         return value !== undefined;
     }).length);
+
+    //Get how many bullets are currently in the array.
+    var numBullets = bulletArray.filter(function (value) {
+        return value !== undefined;
+    }).length;
     var hitSuccess;
 
     for (var mob = 0; mob < numMobs; mob++) {
@@ -359,6 +374,13 @@ function checkHit() {
 
         if (hitSuccess == true)
             health -= 2;
+
+        for (var bullets = 0; bullets <= numBullets; bullets++) {
+            //  hitSuccess = hitTest(bulletArray[bullets].x, bulletArray[bullets].y, bulletArray[bullets].getBounds().width, bulletArray[bullets].getBounds().height, monsterArray[mob].x, monsterArray[mob].y);
+            // if (hitTest == true) {
+            //      stage.removeChild(monsterArray[mob]);
+            // }
+        }
     }
 
     //Check coin hit

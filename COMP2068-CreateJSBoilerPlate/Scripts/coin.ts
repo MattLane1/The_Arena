@@ -40,5 +40,4 @@
     coin.currentFrame = 0;
 
     stage.addChild(coin);
-    stage.update();
 } 
