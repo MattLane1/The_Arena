@@ -375,11 +375,24 @@ function checkHit() {
         if (hitSuccess == true)
             health -= 2;
 
-        for (var bullets = 0; bullets <= numBullets; bullets++) {
-            //  hitSuccess = hitTest(bulletArray[bullets].x, bulletArray[bullets].y, bulletArray[bullets].getBounds().width, bulletArray[bullets].getBounds().height, monsterArray[mob].x, monsterArray[mob].y);
-            // if (hitTest == true) {
-            //      stage.removeChild(monsterArray[mob]);
-            // }
+        for (var bullets = 1; bullets <= numBullets; bullets++) {
+            console.log("%%%%%%%%%%%%checkingHit%%%%%%%%%%%%%");
+            console.log("Monster Number" + mob);
+            console.log("bulletNumber" + bullets);
+            console.log("bulletDirection = " + bulletDirectionArray[bullets]);
+            console.log(monsterArray[mob].y);
+            console.log(bulletArray[bullets].x);
+            console.log(bulletArray[bullets].y);
+            console.log(bulletArray[bullets].getBounds().width);
+            console.log(monsterArray[mob].x);
+            console.log(monsterArray[mob].y);
+            console.log("%%%%%%%%%%%%checkingDONE%%%%%%%%%%%%%");
+
+            hitSuccess = hitTest(bulletArray[bullets].x, bulletArray[bullets].y, bulletArray[bullets].getBounds().width, bulletArray[bullets].getBounds().height, monsterArray[mob].x, monsterArray[mob].y);
+
+            if (hitSuccess == true) {
+                stage.removeChild(monsterArray[mob]);
+            }
         }
     }
 

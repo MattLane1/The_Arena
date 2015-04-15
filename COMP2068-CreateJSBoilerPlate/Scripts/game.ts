@@ -387,12 +387,13 @@ function checkHit() {
     //    console.log("numBullets = " + numBullets);
 
         //Check bullet hit (on enemy)
-        for (var bullets = 0; bullets <= numBullets; bullets++) {
-          //  hitSuccess = hitTest(bulletArray[bullets].x, bulletArray[bullets].y, bulletArray[bullets].getBounds().width, bulletArray[bullets].getBounds().height, monsterArray[mob].x, monsterArray[mob].y);
+        for (var bullets = 1; bullets <= numBullets; bullets++) {
 
-           // if (hitTest == true) {
-          //      stage.removeChild(monsterArray[mob]);
-           // }
+            hitSuccess = hitTest(bulletArray[bullets].x, bulletArray[bullets].y, bulletArray[bullets].getBounds().width, bulletArray[bullets].getBounds().height, monsterArray[mob].x, monsterArray[mob].y);
+            
+            if (hitSuccess == true) {
+                stage.removeChild(monsterArray[mob]);
+            }
         }
 
     }
