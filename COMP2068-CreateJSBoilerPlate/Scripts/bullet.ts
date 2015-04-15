@@ -50,9 +50,12 @@ function animateBullet() {
                 console.log("bullet go right!!");
             }
             else {
+                console.log("bullet desolved 1");
                 stage.removeChild(bulletArray[bullets]);
-                bulletArray[bullets] = undefined;
-                bulletDirectionArray[bullets] = undefined;
+                bulletArray.splice(bullets, 1);
+                bulletDirectionArray.splice(bullets, 1);
+               // bulletArray[bullets] = undefined;
+               // bulletDirectionArray[bullets] = undefined;
             }
 
         }
@@ -64,9 +67,12 @@ function animateBullet() {
                 console.log("bullet go left!!");
             }
             else {
+                console.log("bullet desolved 2");
                 stage.removeChild(bulletArray[bullets]);
-                bulletArray[bullets] = undefined;
-                bulletDirectionArray[bullets] = undefined;
+                bulletArray.splice(bullets, 1);
+                bulletDirectionArray.splice(bullets, 1);
+               // bulletArray[bullets] = undefined;
+                //bulletDirectionArray[bullets] = undefined;
             }
         }
 
@@ -77,9 +83,12 @@ function animateBullet() {
                 console.log("bullet go up!!");
             }
             else {
+                console.log("bullet desolved 3");
                 stage.removeChild(bulletArray[bullets]);
-                bulletArray[bullets] = undefined;
-                bulletDirectionArray[bullets] = undefined;
+                bulletArray.splice(bullets, 1);
+                bulletDirectionArray.splice(bullets, 1);
+               // bulletArray[bullets] = undefined;
+               // bulletDirectionArray[bullets] = undefined;
             }
         }
 
@@ -90,9 +99,12 @@ function animateBullet() {
                 console.log("bullet go down!!");
             }
             else {
+                console.log("bullet desolved 4");
                 stage.removeChild(bulletArray[bullets]);
-                bulletArray[bullets] = undefined;
-                bulletDirectionArray[bullets] = undefined;
+                bulletArray.splice(bullets, 1);
+                bulletDirectionArray.splice(bullets, 1);
+               // bulletArray[bullets] = undefined;
+              //  bulletDirectionArray[bullets] = undefined;
             }
         }
     }

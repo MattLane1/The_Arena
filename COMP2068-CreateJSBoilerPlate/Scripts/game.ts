@@ -261,6 +261,7 @@ function gameLoop() {
                 animatePlayer();
                 checkHit();
                 stage.update();
+                coin.gotoAndPlay("spin");
             }
 
             if (numBullets != 0)
