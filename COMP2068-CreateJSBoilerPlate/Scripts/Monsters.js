@@ -32,43 +32,10 @@
                 break;
 
             case 2:
-                speed = Math.floor(Math.random() * (10 - 1 + 1)) + 1;
+                speed = Math.floor(Math.random() * (8 - 1 + 1)) + 1;
                 break;
         }
 
-        /*Floor Y Coords
-        * First: 110
-        * Second: 280
-        * Third: 450
-        * Fourth: 620
-        * Fifth: 790
-        */
-        //Pick a floor for the monster to be on at random. (Between 1 and 5)
-        floor = Math.floor(Math.random() * (5 - 1 + 1) + 1);
-
-        switch (floor) {
-            case 1:
-                y = 110;
-                break;
-
-            case 2:
-                y = 280;
-                break;
-
-            case 3:
-                y = 450;
-                break;
-
-            case 4:
-                y = 620;
-                break;
-
-            case 5:
-                y = 790;
-                break;
-        }
-
-        //y = 280;//Math.floor(Math.random() * ((window.innerHeight - 50) - 1 + 1)) + 1;
         console.log("Mob created! Speed = " + speed);
 
         // create a BitmapAnimation instance to display and play back the sprite sheet:
@@ -87,10 +54,12 @@
         monsterArray[mob].vX = speed;
 
         //X Plane (Starting pos)
-        monsterArray[mob].x = 0;
+        monsterArray[mob].x = Math.floor(Math.random() * (window.innerWidth - 40 + 40) + 40);
+        ;
 
         //Y Plane (Run on this line)
-        monsterArray[mob].y = y;
+        monsterArray[mob].y = Math.floor(Math.random() * (window.innerHeight - 40 + 40) + 40);
+        ;
 
         //Left or Right
         monsterArray[mob].scaleX = 90;

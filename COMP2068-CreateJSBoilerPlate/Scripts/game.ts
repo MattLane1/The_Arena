@@ -19,8 +19,14 @@ var postMobs;
 
 var test;
 
+var bulletTest = false;
+
 //Images
 var background: createjs.Bitmap;
+
+var bulletArray = new Array(100);
+var bulletDirectionArray = new Array(100);
+
 var imgMonsterARun = new Image();
 var imgHero = new Image();
 var imgCoin = new Image();
@@ -49,11 +55,20 @@ var playerDirectionArray = new Array(20);
 var attacking;
 
 
+
 function init() {
     //level one is the start (obviously)
     level = 0;
 
     test = false;
+    
+    
+    /*2D array
+    var bulletArray = new Array(100);
+    for (var i = 0; i < 10; i++) {
+        bulletArray[i] = new Array(20);
+    }
+   */
 
     attacking = false;
 
@@ -89,6 +104,7 @@ function init() {
     easyButton.addEventListener('click', function (evt) {
         difficulty = 0;
         beginGame();
+        health = 100;
 
     }, false)
 
@@ -118,6 +134,7 @@ function init() {
 function beginGame() {
    
     gameState = 2;
+    score = 0;
 
     stage.removeAllChildren();
     stage.removeAllEventListeners();
@@ -155,7 +172,9 @@ function beginGame() {
 }
 
 function controls() {
+
     switch (event.keyCode) {
+
         case 38://right
             playerDirectionArray[2] = true;
            // hero.gotoAndPlay("walk"); 
@@ -178,6 +197,10 @@ function controls() {
             playerDirectionArray[3] = true;
            // hero.gotoAndPlay("walk"); 
            // animatePlayer();
+            break;
+
+        case 32://Shoot
+            loadBullet();
             break;
     }
 }
@@ -211,6 +234,9 @@ function gameLoop() {
     playerLocationX = hero.x;
     playerLocationY = hero.y;
 
+    //Get how many bullets are currently in the array. 
+    var numBullets = bulletArray.filter(function (value) { return value !== undefined }).length;
+
     if (gameState != 4) {
 
         //Get how many monsters are currently in the array. 
@@ -232,10 +258,13 @@ function gameLoop() {
 
             if (numMobs != 0) {
                 targetPlayer();
-                checkHit();
                 animatePlayer();
+                checkHit();
                 stage.update();
             }
+
+            if (numBullets != 0)
+                animateBullet();
         }
     }
 }
@@ -345,12 +374,12 @@ function checkHit() {
 
     //Check coin hit
     if (hitTest(coin.x, coin.y, coin.getBounds().width, coin.getBounds().height, hero.x, hero.y) == true) {
-        score += 10;
-        stage.removeChild(coin);
-        loadCoin();
-        console.log("Coin GET!!!!!");
-    }
-        
+         score += 10;
+         stage.removeChild(coin);
+         loadCoin();
+         console.log("Coin GET!!!!!");
+      }
+       
     //Clear the way
     stage.removeChild(postHealth);
     stage.removeChild(postScore);
