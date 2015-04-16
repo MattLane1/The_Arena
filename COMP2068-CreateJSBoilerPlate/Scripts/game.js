@@ -126,6 +126,8 @@ function init() {
         beginGame();
     }, false);
 
+    loadSounds();
+
     stage.addChild(menu);
 
     stage.update();
@@ -167,61 +169,68 @@ function beginGame() {
 
     //Update info
     updateInfo();
+
+    createjs.Sound.play("sound_Monster");
 }
 
 function controls() {
-    switch (event.keyCode) {
-        case 38:
-            playerDirectionArray[2] = true;
-            lastDirection = 2;
+    if (gameState != 4) {
+        switch (event.keyCode) {
+            case 38:
+                playerDirectionArray[2] = true;
+                lastDirection = 2;
 
-            break;
+                break;
 
-        case 40:
-            playerDirectionArray[1] = true;
-            lastDirection = 3;
+            case 40:
+                playerDirectionArray[1] = true;
+                lastDirection = 3;
 
-            break;
+                break;
 
-        case 39:
-            playerDirectionArray[0] = true;
-            lastDirection = 1;
+            case 39:
+                playerDirectionArray[0] = true;
+                lastDirection = 1;
 
-            break;
+                break;
 
-        case 37:
-            playerDirectionArray[3] = true;
-            lastDirection = 4;
+            case 37:
+                playerDirectionArray[3] = true;
+                lastDirection = 4;
 
-            break;
+                break;
 
-        case 32:
-            loadBullet();
-            break;
+            case 32:
+                createjs.Sound.play("sound_bang");
+                loadBullet();
+                break;
+        }
     }
 }
 
 function offControls() {
-    switch (event.keyCode) {
-        case 38:
-            playerDirectionArray[2] = false;
+    if (gameState != 4) {
+        switch (event.keyCode) {
+            case 38:
+                playerDirectionArray[2] = false;
 
-            break;
+                break;
 
-        case 40:
-            playerDirectionArray[1] = false;
+            case 40:
+                playerDirectionArray[1] = false;
 
-            break;
+                break;
 
-        case 39:
-            playerDirectionArray[0] = false;
+            case 39:
+                playerDirectionArray[0] = false;
 
-            break;
+                break;
 
-        case 37:
-            playerDirectionArray[3] = false;
+            case 37:
+                playerDirectionArray[3] = false;
 
-            break;
+                break;
+        }
     }
 }
 
@@ -322,6 +331,7 @@ function levelSplash() {
 
         gameState = 4;
 
+        //createjs.Sound.play("sound_HDeath");
         stage.addChild(looseMessage);
 
         stage.update();
@@ -373,13 +383,16 @@ function checkHit() {
     for (var mob = 0; mob < numMobs; mob++) {
         hitSuccess = hitTest(monsterArray[mob].x, monsterArray[mob].y, monsterArray[mob].getBounds().width, monsterArray[mob].getBounds().height, hero.x, hero.y);
 
-        if (hitSuccess == true)
+        if (hitSuccess == true) {
+            createjs.Sound.play("sound_Pain");
             health -= 2;
+        }
 
         for (var bullets = 1; bullets <= numBullets; bullets++) {
             hitSuccess = hitTest(monsterArray[mob].x, monsterArray[mob].y, monsterArray[mob].getBounds().width, monsterArray[mob].getBounds().height, bulletArray[bullets].x, bulletArray[bullets].y);
 
             if (hitSuccess == true) {
+                createjs.Sound.play("sound_MDeath");
                 stage.removeChild(monsterArray[mob]);
                 stage.removeChild(bulletArray[bullets]);
 
@@ -396,6 +409,7 @@ function checkHit() {
         stage.removeChild(coin);
         loadCoin();
         console.log("Coin GET!!!!!");
+        createjs.Sound.play("sound_coin");
     }
 
     //Clear the way

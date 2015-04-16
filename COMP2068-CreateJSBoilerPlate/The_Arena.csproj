@@ -67,7 +67,12 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="assets\audio\coin.aiff" />
+    <Content Include="assets\audio\bang.wav" />
+    <Content Include="assets\audio\coin.wav" />
+    <Content Include="assets\audio\heroDeath.wav" />
+    <Content Include="assets\audio\mobDeath.wav" />
+    <Content Include="assets\audio\monster.wav" />
+    <Content Include="assets\audio\Pain.wav" />
     <Content Include="assets\images\background.jpg" />
     <Content Include="assets\images\brick_window.jpg" />
     <Content Include="assets\images\bullet.png" />
@@ -103,6 +108,7 @@
     <TypeScriptCompile Include="Scripts\lib\tweenjs.d.ts" />
     <TypeScriptCompile Include="Scripts\Monsters.ts" />
     <TypeScriptCompile Include="Scripts\player.ts" />
+    <TypeScriptCompile Include="Scripts\Sounds.ts" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="assets\fonts\" />
