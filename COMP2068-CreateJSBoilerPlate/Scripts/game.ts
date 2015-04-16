@@ -258,14 +258,15 @@ function gameLoop() {
             levelSplash();
         }
 
-        if (score >= 30 && gameState == 2) {
+        if (numMobs == 0 && gameState == 2) {
             gameState = 3;
             levelSplash();
         }
 
         if (gameState == 2) {
 
-            updateInfo();
+            if (numBullets != 0)
+                animateBullet();
 
             if (numMobs != 0) {
                 targetPlayer();
@@ -273,9 +274,8 @@ function gameLoop() {
                 checkHit();
             }
 
-            if (numBullets != 0)
-                animateBullet();
         }
+        updateInfo();
         stage.update();
     }
 }
@@ -285,11 +285,20 @@ function levelSplash() {
     //Get how many monsters are currently in the array. 
     var numMobs = ((monsterArray.filter(function (value) { return value !== undefined }).length));
 
-    console.log("CHECKING!" + "state+" + gameState + "mobs=" + numMobs + "health=" + health);
+   
 
     //They Won!
-    if (gameState == 3 && score >= 30 && health > 0) {
-        console.log("WIN!" + "state+" + gameState + "mobs=" + numMobs + "health=" + health);
+    if (gameState == 3 && numMobs == 0 && health > 0) {
+
+
+        var postWinMessage = new createjs.Text("You Win! \n Ready for the next level?", "80px Arial", "#FF0000");
+        var nextLevelButton = new createjs.Bitmap("assets/images/next_level.png");
+        var menuButton = new createjs.Bitmap("assets/images/main_menu.png");
+
+        stage.addChild(postWinMessage);
+        stage.addChild(nextLevelButton);
+        stage.addChild(menuButton);
+
         //Set up button for start next level
         nextLevelButton.y = 500;
         nextLevelButton.x = 850;
@@ -299,8 +308,8 @@ function levelSplash() {
         }, false)
 
     //Set up the button for return to menu
-    menuButton.y = 500;
-        menuButton.x = 850;
+        menuButton.y = 500;
+        menuButton.x = 650;
         menuButton.addEventListener('click', function (evt) {
             stage.removeAllChildren();
             stage.removeAllEventListeners();
@@ -308,8 +317,6 @@ function levelSplash() {
         }, false)
 
         gameState = 4;
-
-        stage.addChild(winMessage);
 
         stage.update();
     }
@@ -352,7 +359,7 @@ function updateInfo() {
     postLevel = new createjs.Text("Level: " + level, "20px Consolas", "#FFFFFF");
     stage.addChild(postLevel);
     stage.removeChild(postMobs);
-    postMobs = new createjs.Text("Remaining Monsters: " + (monsterArray.filter(function (value) { return value !== undefined }).length - 1), "20px Consolas", "#FFFFFF");
+    postMobs = new createjs.Text("Remaining Monsters: " + (monsterArray.filter(function (value) { return value !== undefined }).length), "20px Consolas", "#FFFFFF");
     stage.addChild(postMobs);
 
     //Position the text
@@ -384,15 +391,19 @@ function checkHit() {
         if (hitSuccess == true) 
             health -= 2;      
 
-    //    console.log("numBullets = " + numBullets);
 
         //Check bullet hit (on enemy)
         for (var bullets = 1; bullets <= numBullets; bullets++) {
 
-            hitSuccess = hitTest(bulletArray[bullets].x, bulletArray[bullets].y, bulletArray[bullets].getBounds().width, bulletArray[bullets].getBounds().height, monsterArray[mob].x, monsterArray[mob].y);
+            hitSuccess = hitTest(monsterArray[mob].x, monsterArray[mob].y, monsterArray[mob].getBounds().width, monsterArray[mob].getBounds().height, bulletArray[bullets].x, bulletArray[bullets].y);
             
             if (hitSuccess == true) {
                 stage.removeChild(monsterArray[mob]);
+                stage.removeChild(bulletArray[bullets]);
+
+                monsterArray.splice(mob, 1);
+                bulletArray.splice(bullets, 1);
+                bulletDirectionArray.splice(bullets, 1);
             }
         }
 

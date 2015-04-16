@@ -7,6 +7,7 @@ var mediumButton;
 var hardButton;
 var postWinMessage;
 var postLooseMessage;
+
 var menuButton;
 var nextLevelButton;
 
