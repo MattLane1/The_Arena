@@ -5,7 +5,7 @@ function loadBullet() {
     var numBullets = bulletArray.filter(function (value) { return value !== undefined }).length;
 
     if (numBullets < 100) {
-        bulletArray[(numBullets + 1)] = new createjs.Bitmap("assets/images/bullet.png");
+        bulletArray[(numBullets + 1)] = new createjs.Bitmap("assets/images/bullet_new.png"); 
         bulletArray[(numBullets + 1)].x = hero.x;
         bulletArray[(numBullets + 1)].y = hero.y;
 

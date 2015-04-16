@@ -75,7 +75,7 @@
     <Content Include="assets\audio\Pain.wav" />
     <Content Include="assets\images\background.jpg" />
     <Content Include="assets\images\brick_window.jpg" />
-    <Content Include="assets\images\bullet.png" />
+    <Content Include="assets\images\bullet_new.png" />
     <Content Include="assets\images\coin.png" />
     <Content Include="assets\images\easy.png" />
     <Content Include="assets\images\Hard.png" />
