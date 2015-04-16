@@ -67,12 +67,6 @@ function init() {
     //No known direction
     lastDirection = 0;
 
-    /*2D array
-    var bulletArray = new Array(100);
-    for (var i = 0; i < 10; i++) {
-    bulletArray[i] = new Array(20);
-    }
-    */
     attacking = false;
 
     //Default difficulty (easy)
@@ -91,6 +85,10 @@ function init() {
 
     //The game has not yet started
     gameState = 1;
+
+    //Set up the Background
+    background = new createjs.Bitmap("assets/images/background.jpg");
+    background.scaleY = background.scaleX = 1.6;
 
     //Set up canvas and stage
     canvas = document.getElementById("canvas");
@@ -126,16 +124,80 @@ function init() {
         beginGame();
     }, false);
 
+    //load the sounds
     loadSounds();
 
     stage.addChild(menu);
+    stage.update();
+}
 
+function backToMenu() {
+    //level one is the start (obviously)
+    level = 0;
+
+    test = false;
+
+    //No known direction
+    lastDirection = 0;
+
+    attacking = false;
+
+    //Default difficulty (easy)
+    difficulty = 0;
+
+    //First Level
+    level = 1;
+
+    //Shot coordinates
+    shotAtX = 0;
+    shotAtY = 0;
+
+    //Score and remaining bullets
+    score = 0;
+    health = 100;
+
+    score = 0;
+
+    //The game has not yet started
+    gameState = 1;
+
+    //We have not yet moved.
+    playerDirectionArray[0] = false;
+    playerDirectionArray[1] = false;
+    playerDirectionArray[2] = false;
+    playerDirectionArray[3] = false;
+
+    //Set up button for start easy mode.
+    easyButton.y = 500;
+    easyButton.x = 250;
+    easyButton.addEventListener('click', function (evt) {
+        difficulty = 0;
+        beginGame();
+        health = 100;
+    }, false);
+
+    //Set up button for start medium mode.
+    mediumButton.y = 500;
+    mediumButton.x = 550;
+    mediumButton.addEventListener('click', function (evt) {
+        difficulty = 1;
+        beginGame();
+    }, false);
+
+    //Set up button for start hard mode.
+    hardButton.y = 500;
+    hardButton.x = 850;
+    hardButton.addEventListener('click', function (evt) {
+        difficulty = 2;
+        beginGame();
+    }, false);
+
+    stage.addChild(menu);
     stage.update();
 }
 
 function beginGame() {
     gameState = 2;
-    score = 0;
 
     stage.removeAllChildren();
     stage.removeAllEventListeners();
@@ -144,10 +206,6 @@ function beginGame() {
     createjs.Ticker.addEventListener("tick", gameLoop);
     createjs.Ticker.useRAF = true;
     createjs.Ticker.setFPS(30);
-
-    //Set up the Background
-    background = new createjs.Bitmap("assets/images/background.jpg");
-    background.scaleY = background.scaleX = 1.6;
 
     this.document.onkeydown = controls;
     this.document.onkeyup = offControls;
@@ -161,10 +219,10 @@ function beginGame() {
     //Load our hero
     loadPlayer();
 
-    //TEMP
+    //Load the coin
     loadCoin();
 
-    //Set up ammo
+    //Set up health (based on difficulty)
     setHealth();
 
     //Update info
@@ -179,24 +237,28 @@ function controls() {
             case 38:
                 playerDirectionArray[2] = true;
                 lastDirection = 2;
+                hero.gotoAndPlay("walk");
 
                 break;
 
             case 40:
                 playerDirectionArray[1] = true;
                 lastDirection = 3;
+                hero.gotoAndPlay("walk");
 
                 break;
 
             case 39:
                 playerDirectionArray[0] = true;
                 lastDirection = 1;
+                hero.gotoAndPlay("walk");
 
                 break;
 
             case 37:
                 playerDirectionArray[3] = true;
                 lastDirection = 4;
+                hero.gotoAndPlay("walk");
 
                 break;
 
@@ -213,22 +275,22 @@ function offControls() {
         switch (event.keyCode) {
             case 38:
                 playerDirectionArray[2] = false;
-
+                hero.gotoAndStop();
                 break;
 
             case 40:
                 playerDirectionArray[1] = false;
-
+                hero.gotoAndStop();
                 break;
 
             case 39:
                 playerDirectionArray[0] = false;
-
+                hero.gotoAndStop();
                 break;
 
             case 37:
                 playerDirectionArray[3] = false;
-
+                hero.gotoAndStop();
                 break;
         }
     }
@@ -304,7 +366,7 @@ function levelSplash() {
         menuButton.addEventListener('click', function (evt) {
             stage.removeAllChildren();
             stage.removeAllEventListeners();
-            init();
+            backToMenu();
         }, false);
 
         gameState = 4;
@@ -314,7 +376,8 @@ function levelSplash() {
 
     //They lost!
     if (gameState == 3 && health <= 0) {
-        console.log("loose!" + "state+" + gameState + "mobs=" + numMobs + "health=" + health);
+        postLooseMessage = new createjs.Text("You Lost!", "80px Arial", "#FF0000");
+        menuButton = new createjs.Bitmap("assets/images/main_menu.png");
 
         //Set up the button for return to menu
         menuButton.y = 500;
@@ -322,7 +385,7 @@ function levelSplash() {
         menuButton.addEventListener('click', function (evt) {
             stage.removeAllChildren();
             stage.removeAllEventListeners();
-            init();
+            backToMenu();
         }, false);
 
         //Center our message
@@ -332,7 +395,8 @@ function levelSplash() {
         gameState = 4;
 
         //createjs.Sound.play("sound_HDeath");
-        stage.addChild(looseMessage);
+        stage.addChild(postLooseMessage);
+        stage.addChild(menuButton);
 
         stage.update();
     }
@@ -385,13 +449,14 @@ function checkHit() {
 
         if (hitSuccess == true) {
             createjs.Sound.play("sound_Pain");
-            health -= 2;
+            health -= 3;
         }
 
         for (var bullets = 1; bullets <= numBullets; bullets++) {
             hitSuccess = hitTest(monsterArray[mob].x, monsterArray[mob].y, monsterArray[mob].getBounds().width, monsterArray[mob].getBounds().height, bulletArray[bullets].x, bulletArray[bullets].y);
 
             if (hitSuccess == true) {
+                score += 5;
                 createjs.Sound.play("sound_MDeath");
                 stage.removeChild(monsterArray[mob]);
                 stage.removeChild(bulletArray[bullets]);
