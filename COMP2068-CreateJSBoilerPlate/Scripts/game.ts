@@ -58,8 +58,6 @@ var playerLocationY;
 var playerDirectionArray = new Array(20);
 var attacking;
 
-
-
 function init() {
     //level one is the start (obviously)
     level = 0;
@@ -157,11 +155,9 @@ function backToMenu() {
     shotAtX = 0;
     shotAtY = 0;
 
-    //Score and remaining bullets
+    //Score and remaining health
     score = 0;
     health = 100;
-
-    score = 0;
 
     //The game has not yet started
     gameState = 1;
@@ -236,6 +232,8 @@ function beginGame() {
 
     //Update info
     updateInfo();
+
+    hero.gotoAndStop();
 
     createjs.Sound.play("sound_Monster");
 }
